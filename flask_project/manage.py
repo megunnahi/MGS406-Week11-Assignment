@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
-import sqlite3
+import mysql.connector as sql
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 
 @app.route('/')
 def home_page():
@@ -31,13 +33,13 @@ def registration_page():
             print(f"Received phone: {empPhone}")
             print(f"Received bday: {empBdate}")
 
-            with sqlite3.connect('/home/jbai/week12/MGS406-Week11-Assignment/flask_project/employee.db') as con:
+            with sql.connect(host = "localhost", user = "James", password = "bob14228", database = "new_employee") as con:
                 print("")
-                print("Connected")
+                print("Connected to MySQL")
                 cur = con.cursor()
                 print("")
                 print("TEST")
-                cur.execute("INSERT INTO information (EmpID, EmpName, EmpGender, EmpPhone, EmpBdate) VALUES('{0}', '{1}', '{2}', '{3}', '{4}');".format(empID, empName, empGender, empPhone, empBdate))
+                cur.execute("INSERT INTO employee (EmpID, EmpName, EmpGender, EmpPhone, EmpBdate) VALUES('{0}', '{1}', '{2}', '{3}', '{4}');".format(empID, empName, empGender, empPhone, empBdate))
 
                 print("SQL Statement has been executed")
                 con.commit()
@@ -58,13 +60,13 @@ def registration_page():
 
 @app.route('/information/')
 def information_page():
-    con = sqlite3.connect('/home/jbai/week12/MGS406-Week11-Assignment/flask_project/employee.db')
-    con.row_factory = sqlite3.Row
+    con = sql.connect(host = "localhost", user = 'James', password = 'bob14228', database = "new_employee")
 
     cur = con.cursor()
-    cur.execute("SELECT * FROM information;")
+    cur.execute("SELECT * FROM employee;")
 
     rows = cur.fetchall()
+    print(rows)
     return render_template('information.htm', rows = rows)
 
 if __name__ == "main":
