@@ -31,7 +31,7 @@ def registration_page():
             print(f"Received phone: {empPhone}")
             print(f"Received bday: {empBdate}")
 
-            with sqlite3.connect('/home/jbai/week11/MGS406-Week11-Assignment/flask_project/employee.db') as con:
+            with sqlite3.connect('/home/jbai/week12/MGS406-Week11-Assignment/flask_project/employee.db') as con:
                 print("")
                 print("Connected")
                 cur = con.cursor()
@@ -58,7 +58,7 @@ def registration_page():
 
 @app.route('/information/')
 def information_page():
-    con = sqlite3.connect('/home/jbai/week11/MGS406-Week11-Assignment/flask_project/employee.db')
+    con = sqlite3.connect('/home/jbai/week12/MGS406-Week11-Assignment/flask_project/employee.db')
     con.row_factory = sqlite3.Row
 
     cur = con.cursor()
